@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Barca Store — Toko Demo</title>
+  <title>Barca Shop</title>
   <style>
     :root{
       --bg: #0b1020;
@@ -95,8 +95,8 @@
 
   <header class="hero">
     <div class="hero-left">
-      <h2>Selamat datang di <strong>Barca Store</strong></h2>
-      <p>Demo toko sederhana untuk tugas. Lihat koleksi item unggulan, filter berdasarkan kategori, dan lihat detail singkat setiap produk.</p>
+      <h2>Selamat datang di <strong>Barca Shop</strong></h2>
+      <p>Jika anda benar-benar fans Barca, maka belanjalah disini.</p>
       <button class="cta" onclick="scrollToShop()">Lihat Koleksi</button>
     </div>
     <div class="hero-right" aria-hidden style="flex:1">
@@ -128,14 +128,14 @@
     </section>
 
     <section style="margin-top:28px">
-      <h3 id="about">Tentang Toko</h3>
-      <p style="color:var(--muted)">Ini adalah halaman demo untuk memenuhi kebutuhan tugas. Model aplikasi harus memiliki atribut: <strong>name, price, description, thumbnail, category, is_featured</strong>. Di demo ini data produk disimpan dalam array JS dan dirender ke DOM.</p>
+      <h3 id="about">About Us</h3>
+      <p style="color:var(--muted)">Ini adalah halaman khusus penggemar Barcelona. Dibuat dan didesain oleh fans Barcelona seluruh Indonesia.</p>
     </section>
 
   </main>
 
   <footer class="footer">
-    © 2025 Barca Store — Demo. Designed with ❤️
+    © 2025 Barca Shop. Created by Zakiy Nashrudin Wahid NPM 2406496044 PBP B.
   </footer>
 
   <script>
@@ -150,12 +150,12 @@
     */
 
     const items = [
-      {name:'Home Jersey 2024', price:899000, description:'Jersey home resmi musim 2024.', thumbnail:'https://picsum.photos/seed/jersey1/600/400', category:'jersey', is_featured:true, stock:12, rating:4.7},
-      {name:'Away Jersey 2024', price:899000, description:'Jersey away dengan bahan ringan.', thumbnail:'https://picsum.photos/seed/jersey2/600/400', category:'jersey', is_featured:false, stock:8, rating:4.5},
-      {name:'Scarf Barca', price:149000, description:'Scarf hangat club.', thumbnail:'https://picsum.photos/seed/scarf/600/400', category:'accessory', is_featured:true, stock:30, rating:4.8},
-      {name:'Football Boots', price:1299000, description:'Sepatu untuk performa tinggi.', thumbnail:'https://picsum.photos/seed/boots/600/400', category:'shoes', is_featured:false, stock:5, rating:4.3},
-      {name:'Cap Barca', price:99000, description:'Topi kasual bertuliskan club.', thumbnail:'https://picsum.photos/seed/cap/600/400', category:'accessory', is_featured:false, stock:20, rating:4.1},
-      {name:'Training Kit', price:599000, description:'Set training official.', thumbnail:'https://picsum.photos/seed/training/600/400', category:'jersey', is_featured:true, stock:6, rating:4.6},
+      {name:'Home Jersey 2024', price:899000, description:'Jersey home resmi musim 2024.', thumbnail:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSxX4oeNvIyMTnJvYSZOyICmJ7T4bcN9O-DR4COVk1nB67nisifDNS17-bSOhdoEMjHL5Obi_0kW5xdZzlHJgG9Awrsv79zhBASfd0QdmmqlgMPB5gxAufSplo0QAb6Q6aB_ZIYq7753jlyiaROZlu1mv_YBCv46fTtm2eKPYQeipjmilt712n3SKzR40/s1600/barcelona%2024-25-home-kit%20%287%29.jpg', category:'jersey', is_featured:true, stock:12, rating:4.7},
+      {name:'Away Jersey 2024', price:899000, description:'Jersey away dengan bahan ringan.', thumbnail:'https://soccerzoneusa.com/cdn/shop/files/BarcaAwayFront_3b685aac-111b-4e96-9501-80041d2a0025_1200x1200.webp?v=1727100960', category:'jersey', is_featured:false, stock:8, rating:4.5},
+      {name:'Scarf Barca', price:149000, description:'Scarf hangat club.', thumbnail:'https://i.ebayimg.com/images/g/RTEAAOSwpBJh-aki/s-l1200.jpg', category:'accessory', is_featured:true, stock:30, rating:4.8},
+      {name:'Football Boots', price:1299000, description:'Sepatu Nike Barcelona.', thumbnail:'https://images.tokopedia.net/img/cache/700/product-1/2018/11/6/16798835/16798835_8fb5c7ef-b52c-4ef7-9fea-46b56361b1f5_700_525.jpg', category:'shoes', is_featured:false, stock:5, rating:4.3},
+      {name:'Cap Barca', price:99000, description:'Topi Barcelona.', thumbnail:'https://down-id.img.susercontent.com/file/9d7464be0d9b7928c57b764cc1b65742', category:'accessory', is_featured:false, stock:20, rating:4.1},
+      {name:'Training Kit', price:599000, description:'Set training official.', thumbnail:'https://soccerarmor.com/wp-content/uploads/2025/02/Barcelona-2425-Sleeveless-Training-Kit-Blue-Black.jpg', category:'jersey', is_featured:true, stock:6, rating:4.6},
     ];
 
     const grid = document.getElementById('grid');
