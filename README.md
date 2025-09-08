@@ -3,7 +3,7 @@ checklist 1 (membuat proyek django baru) -> saya membuat repository baru di gith
 checklist 2 (Membuat aplikasi dengan nama main pada proyek tersebut) -> dengan membuat file urls.py lalu menamakan app_name = 'main'.
 checklist 3 (Melakukan routing pada proyek agar dapat menjalankan aplikasi main) -> dengan menambahkan path('', include('main.urls')), pada urlpatterns di urls.py level projek
 checklist 4 (Membuat model pada aplikasi main dengan nama Product dan memiliki atribut wajib sebagai berikut.
-name sebagai nama item dengan tipe CharField) -> dengan mengubah atribut di models.py
+name sebagai nama item dengan tipe CharField) -> dengan mengubah atribut di models.py sesuai spesifikasi yang diminta.
 checklist 5 (Melakukan deployment ke PWS terhadap aplikasi yang sudah dibuat) -> dengan menggunakan git push pws master pada cmd.
 
 2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
