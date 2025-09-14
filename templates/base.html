@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Barca Shop{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block meta %}{% endblock meta %}
+    {% block extra_css %}{% endblock extra_css %}
+</head>
+<body>
+    <nav class="nav">
+        <div class="brand">
+            <div class="logo">B</div>
+            <div>
+                <h1>Barca Store</h1>
+                <div style="font-size:12px;color:var(--muted)">Official Demo Store</div>
+            </div>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="#">Home</a>
+            <a href="#shop">Shop</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#cart" class="pill">Cart</a>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:center">
+            <div class="search" role="search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"></path>
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5" opacity="0.7"></circle>
+                </svg>
+                <input id="q" placeholder="Cari Produk" aria-label="Search products"/>
+            </div>
+            <button class="hamburger" aria-label="menu" onclick="toggleNav()">☰</button>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock content %}
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Barca Shop. Created by Zakiy Nashrudin Wahid NPM 2406496044 PBP B.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript global -->
+    <script src="{% static 'js/base.js' %}"></script>
+    <!-- Halaman bisa menambahkan JS khusus di sini -->
+    {% block extra_js %}{% endblock extra_js %}
+</body>
+</html>
