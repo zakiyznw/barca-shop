@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block title %}Barca Shop{% endblock title %}
+
+{% block extra_css %}
+<style>
+/* ===== HERO ===== */
+.hero { padding:36px 28px 12px; display:flex; gap:28px; align-items:center; }
+.hero-left { max-width:640px; }
+.hero h2 { margin:0; font-size:32px; }
+.hero p, a { color: var(--muted); line-height:1.6; }
+.cta { margin-top:18px; background: linear-gradient(90deg, var(--accent), #d43b6b); padding:12px 18px; border-radius:12px; color:white; border:0; cursor:pointer; }
+
+/* ===== CONTROLS ===== */
+.container { padding:18px 28px; }
+.controls { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; gap:12px; }
+.filters { display:flex; gap:10px; align-items:center; }
+.btn { background: var(--glass); border-radius:10px; padding:8px 12px; border:0; color: var(--muted); cursor:pointer; }
+.btn.active { background: linear-gradient(90deg, var(--accent), #2b6bb2); color:white; }
+.pill { background: var(--glass); padding:6px 12px; border-radius:12px; cursor:pointer; }
+
+/* ===== GRID & CARD ===== */
+.grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.03); display:flex; flex-direction:column; gap:10px; }
+.thumb { height:180px; border-radius:10px; background-size:cover; background-position:center; position:relative; }
+.badge { position:absolute; left:10px; top:10px; background: var(--accent); padding:6px 8px; border-radius:8px; font-weight:700; font-size:12px; box-shadow:0 6px 20px rgba(165,0,68,0.18); }
+.card h3 { margin:0; font-size:18px; }
+.meta { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:13px; }
+.price { font-weight:800; }
+.add { background: linear-gradient(90deg, var(--accent), #d43b6b); padding:8px 10px; border-radius:10px; color:white; font-weight:600; text-align:center; text-decoration:none; display:block; }
+.card-footer { display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted); }
+
+/* RESPONSIVE */
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<header class="hero">
+  <div class="hero-left">
+    <h2>Selamat datang di <strong>Barca Shop</strong></h2>
+    <p>Jika anda benar-benar fans Barca, maka belanjalah disini.</p>
+    <button class="cta" onclick="scrollToShop()">Lihat Koleksi</button>
+  </div>
+  <div class="hero-right" aria-hidden style="flex:1">
+    <div style="height:180px;border-radius:16px;background:linear-gradient(135deg,#12243a,#0f2345);display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center">
+        <div style="font-size:60px;opacity:0.08">🏟️</div>
+        <div style="color:var(--muted)">Barca Collection</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- Controls -->
+  <section class="controls">
+    <div class="filters">
+      <button class="btn active" data-cat="all" onclick="filterCat(event)">Semua</button>
+      <button class="btn" data-cat="Jersey" onclick="filterCat(event)">Jersey</button>
+      <button class="btn" data-cat="Accessory" onclick="filterCat(event)">Aksesori</button>
+      <button class="btn" data-cat="Shoes" onclick="filterCat(event)">Sepatu</button>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;margin-left:auto;">
+      <div class="pill" id="featuredToggle" onclick="toggleFeatured()">Tampilkan Unggulan</div>
+      <a href="{% url 'main:add_product' %}" class="pill">Tambah Produk</a>
+    </div>
+  </section>
+
+  <!-- Shop Grid -->
+  <section id="shop" style="margin-top:16px;">
+    <div class="grid" id="grid">
+      {% for product in product_list %}
+      <article class="card" data-category="{{ product.category }}" data-featured="{{ product.is_featured }}">
+        <div class="thumb" style="background-image:url('{{ product.thumbnail }}')">
+          {% if product.is_featured %}
+          <div class="badge">UNGULAN</div>
+          {% endif %}
+        </div>
+        <h3>{{ product.name }}</h3>
+        <div class="meta">
+          <div class="pill">{{ product.category }}</div>
+          <div class="price">Rp {{ product.price|intcomma }}</div>
+        </div>
+        <div class="card-footer">
+          <div>⭐ {{ product.rating }} • Stok {{ product.stock }}</div>
+          <a href="{% url 'main:show_product' product.id %}" class="add">Lihat Produk</a>
+        </div>
+      </article>
+      {% empty %}
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);">
+        Belum ada produk.
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- About -->
+  <section style="margin-top:28px">
+    <h3 id="about">About Us</h3>
+    <p style="color:var(--muted)">Ini adalah halaman khusus penggemar Barcelona. Dibuat dan didesain oleh fans Barcelona seluruh Indonesia.</p>
+  </section>
+</main>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+let showFeaturedOnly = false;
+let activeCategory = 'all';
+const grid = document.getElementById('grid');
+
+// Format harga
+function formatPrice(n){
+  return 'Rp ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+// Render / filter
+function updateView(){
+  const cards = grid.querySelectorAll('.card');
+  cards.forEach(card=>{
+    const cat = card.dataset.category;
+    const featured = card.dataset.featured === 'True';
+    let show = true;
+    if(activeCategory !== 'all' && cat !== activeCategory) show=false;
+    if(showFeaturedOnly && !featured) show=false;
+    card.style.display = show ? '' : 'none';
+  });
+}
+
+// Filter kategori
+function filterCat(e){
+  const btns = document.querySelectorAll('.filters .btn');
+  btns.forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeCategory = e.target.dataset.cat;
+  updateView();
+}
+
+// Toggle produk unggulan
+function toggleFeatured(){
+  showFeaturedOnly = !showFeaturedOnly;
+  document.getElementById('featuredToggle').classList.toggle('btn-active');
+  updateView();
+}
+
+// Scroll ke shop
+function scrollToShop(){
+  document.getElementById('shop').scrollIntoView({behavior:'smooth'});
+}
+
+</script>
+{% endblock extra_js %}
