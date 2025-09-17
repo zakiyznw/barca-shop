@@ -68,6 +68,9 @@
     <div style="display:flex;gap:8px;align-items:center;margin-left:auto;">
       <div class="pill" id="featuredToggle" onclick="toggleFeatured()">Tampilkan Unggulan</div>
       <a href="{% url 'main:add_product' %}" class="pill">Tambah Produk</a>
+      <a href="{% url 'main:logout' %}" class="pill">Logout</a>
+      <a href="?filter=all" class="pill">All Products</a>
+      <a href="?filter=my" class="pill">My Products</a>
     </div>
   </section>
 
@@ -78,7 +81,7 @@
       <article class="card" data-category="{{ product.category }}" data-featured="{{ product.is_featured }}">
         <div class="thumb" style="background-image:url('{{ product.thumbnail }}')">
           {% if product.is_featured %}
-          <div class="badge">UNGULAN</div>
+          <div class="badge">UNGGULAN</div>
           {% endif %}
         </div>
         <h3>{{ product.name }}</h3>
