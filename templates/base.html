@@ -1,3 +1,7 @@
+{% load static %}
+
+{% load humanize %}
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,42 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Barca Shop{% endblock title %}</title>
 
-    <!-- Inline CSS -->
-    <style>
-        :root{
-          --bg: #0b1020;
-          --card: #0f1724;
-          --accent: #a50044;
-          --muted: #9aa3b2;
-          --glass: rgba(255,255,255,0.04);
-          --radius: 14px;
-          font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-        }
-
-        *{box-sizing:border-box}
-        body{margin:0;background:linear-gradient(180deg,#071023 0%, #081827 60%);color:#e6eef6;min-height:100vh}
-
-        /* NAV */
-        .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);backdrop-filter: blur(6px);position:sticky;top:0;z-index:40}
-        .brand{display:flex;align-items:center;gap:12px;font-weight:700}
-        .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#2b6bb2);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 6px 20px rgba(0,0,0,0.5)}
-        .brand h1{font-size:18px;margin:0}
-        .nav-links{display:flex;gap:16px;align-items:center}
-        .nav-links a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px}
-        .nav-links a:hover{background:var(--glass);color:#fff}
-        .search{display:flex;align-items:center;background:rgba(255,255,255,0.03);border-radius:12px;padding:6px 8px;gap:8px}
-        .search input{background:transparent;border:0;outline:none;color:inherit;width:220px}
-        .hamburger{display:none;border:0;background:transparent;color:var(--muted);font-size:22px}
-
-        /* Footer */
-        .footer{padding:24px 28px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.02);margin-top:24px}
-
-        /* small helpers */
-        .pill{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)!important;text-decoration:none!important}
-
-        /* Responsive */
-        @media(max-width:560px){.nav-links{display:none}.hamburger{display:block}}
-    </style>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock extra_css %}
 </head>
 <body>
@@ -81,18 +51,8 @@
         </div>
     </footer>
 
-    <!-- Inline JS -->
-    <script>
-        function toggleNav(){
-            const nl = document.getElementById('navLinks');
-            nl.style.display = (nl.style.display === 'flex') ? 'none' : 'flex';
-            nl.style.flexDirection = 'column';
-        }
-
-        function scrollToShop(){
-            document.getElementById('shop')?.scrollIntoView({behavior:'smooth'});
-        }
-    </script>
+    <!-- External JS -->
+    <script src="{% static 'js/base.js' %}"></script>
     {% block extra_js %}{% endblock extra_js %}
 </body>
 </html>

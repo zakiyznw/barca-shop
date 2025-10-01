@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-@r&14#m8sg1o$$1sez$7&q4hvu$iy=478@469^9(s5%td9byc@
 
 # SECURITY WARNING: don't run with debug turned on in production!
 PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
-DEBUG = True
+DEBUG = not PRODUCTION   # DEBUG False di production
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "zakiy-nashrudin-barcashop.pbp.cs.ui.ac.id"]
 
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -144,8 +145,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+if DEBUG:
+    STATICFILES_DIRS = [ BASE_DIR / 'static' ]  # sumber file (yang dikomit)
+    STATIC_ROOT = BASE_DIR / 'staticfiles'      # target collectstatic (lokal, optional)
+else:
+    # production: collectstatic akan menaruh semua ke STATIC_ROOT
+    STATICFILES_DIRS = []
+    STATIC_ROOT = BASE_DIR / 'staticfiles'     # hasil collectstatic (jgn di-commit)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
