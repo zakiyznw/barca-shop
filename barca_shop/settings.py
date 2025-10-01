@@ -144,14 +144,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+
 STATIC_URL = '/static/'
 if DEBUG:
-    STATICFILES_DIRS = [ BASE_DIR / 'static' ]  # sumber file (yang dikomit)
-    STATIC_ROOT = BASE_DIR / 'staticfiles'      # target collectstatic (lokal, optional)
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static' # merujuk ke /static root project pada mode development
+    ]
 else:
-    # production: collectstatic akan menaruh semua ke STATIC_ROOT
-    STATICFILES_DIRS = []
-    STATIC_ROOT = BASE_DIR / 'staticfiles'     # hasil collectstatic (jgn di-commit)
+    STATIC_ROOT = BASE_DIR / 'static' # merujuk ke /static root project pada mode production
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
