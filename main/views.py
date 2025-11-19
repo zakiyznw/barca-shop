@@ -10,6 +10,11 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+import requests
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.html import strip_tags
+import json
+from django.http import JsonResponse
 
 
 @login_required(login_url='/login')
@@ -185,3 +190,82 @@ def delete_product(request, id):
     product = get_object_or_404(Product, pk=id)
     product.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
+
+def proxy_image(request):
+    image_url = request.GET.get('url')
+    if not image_url:
+        return HttpResponse('No URL provided', status=400)
+    
+    try:
+        # Fetch image from external source
+        response = requests.get(image_url, timeout=10)
+        response.raise_for_status()
+        
+        # Return the image with proper content type
+        return HttpResponse(
+            response.content,
+            content_type=response.headers.get('Content-Type', 'image/jpeg')
+        )
+    except requests.RequestException as e:
+        return HttpResponse(f'Error fetching image: {str(e)}', status=500)
+    
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method != 'POST':
+        return JsonResponse({"status": "invalid method"}, status=405)
+
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except Exception:
+        return JsonResponse({"status": "invalid json"}, status=400)
+
+    # Pastikan user ter-autentikasi
+    if not request.user.is_authenticated:
+        return JsonResponse({"status": "unauthorized"}, status=401)
+
+    # Ambil fields dengan fallback default
+    name = strip_tags(data.get("name", "")).strip()
+    price = data.get("price", None)
+    stock = data.get("stock", 0)
+    description = strip_tags(data.get("description", "")).strip()
+    thumbnail = data.get("thumbnail", "") or None
+    category = data.get("category", "Jersey")
+    is_featured = bool(data.get("is_featured", False))
+
+    # Validasi minimal
+    if not name or price is None:
+        return JsonResponse({"status": "error", "message": "name and price required"}, status=400)
+
+    # Konversi price (jika string)
+    try:
+        price = int(price)
+    except Exception:
+        return JsonResponse({"status": "error", "message": "price must be integer"}, status=400)
+
+    # Pastikan category cocok dengan choices (opsional)
+    if category not in dict(Product.CATEGORY_CHOICES).keys():
+        # Map common values (case-insensitive)
+        mapped = None
+        for k in dict(Product.CATEGORY_CHOICES).keys():
+            if k.lower() == category.lower():
+                mapped = k
+                break
+        if mapped:
+            category = mapped
+        else:
+            category = Product.CATEGORY_CHOICES[0][0]  # default first
+
+    product = Product.objects.create(
+        name = name,
+        price = price,
+        stock = stock,
+        description = description,
+        thumbnail = thumbnail,
+        category = category,
+        is_featured = is_featured,
+        rating = 0.0,
+        total_ratings = 0,
+        user = request.user
+    )
+
+    return JsonResponse({"status": "success", "id": str(product.id)}, status=200)
